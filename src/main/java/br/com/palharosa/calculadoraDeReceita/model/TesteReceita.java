@@ -27,7 +27,7 @@ public class TesteReceita {
 
 		receita.setNome("Receita teste");
 		receita.setEmbalagem(embalagem);
-		receita.setIngredientes(ingredienteQuantidade);
+//		receita.setIngredientes(ingredienteQuantidade);
 		receita.setQuantidadeProduzida(30);
 
 		System.out.println(receita.precoTotal());

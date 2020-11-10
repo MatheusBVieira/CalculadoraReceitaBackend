@@ -2,12 +2,47 @@ package br.com.palharosa.calculadoraDeReceita.model;
 
 import java.util.Map;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
+
+@Entity
 public class Receita {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "embalagem_id")
 	private Embalagem embalagem;
-	private Map<Ingrediente, Double> ingredientes;
+
+	@ManyToMany
+	@MapKeyColumn(name = "quantidade")
+	@JoinTable(name = "receita_ingrediente", joinColumns = @JoinColumn(name = "receita_id"), inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
+	private Map<Double, Ingrediente> ingredientes;
+
 	private String nome;
 	private int quantidadeProduzida;
+
+	public Receita(Embalagem embalagem, Map<Double, Ingrediente> ingredientes, String nome, int quantidadeProduzida) {
+		super();
+		this.embalagem = embalagem;
+		this.ingredientes = ingredientes;
+		this.nome = nome;
+		this.quantidadeProduzida = quantidadeProduzida;
+	}
+
+	public Receita() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Embalagem getEmbalagem() {
 		return embalagem;
@@ -17,11 +52,11 @@ public class Receita {
 		this.embalagem = embalagem;
 	}
 
-	public Map<Ingrediente, Double> getIngredientes() {
+	public Map<Double, Ingrediente> getIngredientes() {
 		return ingredientes;
 	}
 
-	public void setIngredientes(Map<Ingrediente, Double> ingredienteQuantidade) {
+	public void setIngredientes(Map<Double, Ingrediente> ingredienteQuantidade) {
 		this.ingredientes = ingredienteQuantidade;
 	}
 
@@ -43,14 +78,22 @@ public class Receita {
 
 	public double precoIngredientes() {
 		Double valorTotal = 0.0;
-		for (Map.Entry<Ingrediente, Double> entrada : ingredientes.entrySet()) {
-			Ingrediente ingrediente = entrada.getKey();
-			Double quantidadeUsada = entrada.getValue();
+		for (Map.Entry<Double, Ingrediente> entrada : ingredientes.entrySet()) {
+			Ingrediente ingrediente = entrada.getValue();
+			Double quantidadeUsada = entrada.getKey();
 
 			Double precoDoIngredientePelaQuantidade = quantidadeUsada * ingrediente.valorUnidade();
 			valorTotal = valorTotal + precoDoIngredientePelaQuantidade;
 		}
 		return valorTotal;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public double precoEmbalagem() {
