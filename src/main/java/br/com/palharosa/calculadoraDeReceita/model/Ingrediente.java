@@ -1,6 +1,8 @@
 package br.com.palharosa.calculadoraDeReceita.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +15,8 @@ public class Ingrediente {
 	private String nome;
 	private double preco;
 	private double quantidade;
+
+	@Enumerated(EnumType.STRING)
 	private UnidadeMedida unidadeMedida;
 
 	public Ingrediente() {
@@ -47,6 +51,14 @@ public class Ingrediente {
 
 	public void setQuantidade(double quantidade) {
 		this.quantidade = quantidade;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public UnidadeMedida getUnidadeMedida() {

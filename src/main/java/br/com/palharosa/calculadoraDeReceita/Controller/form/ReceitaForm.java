@@ -1,4 +1,4 @@
-package br.com.palharosa.calculadoraDeReceita.Controller.form;
+package br.com.palharosa.calculadoraDeReceita.controller.form;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

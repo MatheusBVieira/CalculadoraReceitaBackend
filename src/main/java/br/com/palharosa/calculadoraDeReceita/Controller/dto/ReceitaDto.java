@@ -1,4 +1,4 @@
-package br.com.palharosa.calculadoraDeReceita.Controller.dto;
+package br.com.palharosa.calculadoraDeReceita.controller.dto;
 
 import java.util.Map;
 
@@ -9,6 +9,7 @@ import br.com.palharosa.calculadoraDeReceita.model.Receita;
 
 public class ReceitaDto {
 
+	private long id;
 	private Map<Double, Ingrediente> ingredientes;
 	private String nome;
 	private int quantidadeProduzida;
@@ -24,6 +25,14 @@ public class ReceitaDto {
 		this.precoEmbalagem = receita.precoEmbalagem();
 		this.precoTotal = receita.precoTotal();
 
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public Map<Double, Ingrediente> getIngredientes() {

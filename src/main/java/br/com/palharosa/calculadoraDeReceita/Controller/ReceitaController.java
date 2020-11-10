@@ -1,4 +1,4 @@
-package br.com.palharosa.calculadoraDeReceita.Controller;
+package br.com.palharosa.calculadoraDeReceita.controller;
 
 import java.net.URI;
 
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.palharosa.calculadoraDeReceita.Controller.dto.ReceitaDto;
-import br.com.palharosa.calculadoraDeReceita.Controller.form.ReceitaForm;
+import br.com.palharosa.calculadoraDeReceita.controller.dto.ReceitaDto;
+import br.com.palharosa.calculadoraDeReceita.controller.form.ReceitaForm;
 import br.com.palharosa.calculadoraDeReceita.exception.IdNotFoundException;
 import br.com.palharosa.calculadoraDeReceita.model.Receita;
 import br.com.palharosa.calculadoraDeReceita.repository.EmbalagemRepository;
@@ -40,12 +40,11 @@ public class ReceitaController {
 	private IngredienteRepository ingredienteRepository;
 
 	@GetMapping
-	public Page<Receita> lista(
-			@PageableDefault(sort = "name", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao) {
+	public Page<ReceitaDto> lista(
+			@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao) {
 
 		Page<Receita> receitas = receitaRepository.findAll(paginacao);
-		ReceitaDto.converter(receitas);
-		return null;
+		return ReceitaDto.converter(receitas);
 	}
 
 	@PostMapping
