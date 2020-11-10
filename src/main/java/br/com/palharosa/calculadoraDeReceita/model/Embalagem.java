@@ -19,10 +19,17 @@ public class Embalagem {
 	}
 
 	public Embalagem(String nome, double preco, int quantidade) {
-		super();
 		this.nome = nome;
 		this.preco = preco;
 		this.quantidade = quantidade;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public double precoUnidade() {
