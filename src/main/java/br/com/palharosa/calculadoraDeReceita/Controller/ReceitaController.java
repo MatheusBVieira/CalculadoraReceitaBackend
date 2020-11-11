@@ -1,6 +1,7 @@
 package br.com.palharosa.calculadoraDeReceita.controller;
 
 import java.net.URI;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -11,14 +12,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.palharosa.calculadoraDeReceita.controller.dto.ReceitaDto;
+import br.com.palharosa.calculadoraDeReceita.controller.form.AtualicacaoReceitaForm;
 import br.com.palharosa.calculadoraDeReceita.controller.form.ReceitaForm;
 import br.com.palharosa.calculadoraDeReceita.exception.IdNotFoundException;
 import br.com.palharosa.calculadoraDeReceita.model.Receita;
@@ -58,4 +63,28 @@ public class ReceitaController {
 		return ResponseEntity.created(uri).body(new ReceitaDto(receita));
 	}
 
+	@PutMapping("/{id}")
+	@Transactional
+	public ResponseEntity<ReceitaDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualicacaoReceitaForm form)
+			throws IdNotFoundException {
+		Optional<Receita> optional = receitaRepository.findById(id);
+		if (optional.isPresent()) {
+			Receita receita = form.atualizar(id, receitaRepository, ingredienteRepository, embalagemRepository);
+			return ResponseEntity.ok(new ReceitaDto(receita));
+		}
+
+		return ResponseEntity.notFound().build();
+	}
+
+	@DeleteMapping("/{id}")
+	@Transactional
+	public ResponseEntity<?> remover(@PathVariable Long id) {
+		Optional<Receita> optional = receitaRepository.findById(id);
+		if (optional.isPresent()) {
+			receitaRepository.deleteById(id);
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.notFound().build();
+	}
 }

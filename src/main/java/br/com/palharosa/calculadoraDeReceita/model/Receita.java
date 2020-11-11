@@ -24,7 +24,7 @@ public class Receita {
 	@JoinColumn(name = "embalagem_id")
 	private Embalagem embalagem;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@MapKeyColumn(name = "quantidade")
 	@JoinTable(name = "receita_ingrediente", joinColumns = @JoinColumn(name = "receita_id"), inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
 	private Map<Double, Ingrediente> ingredientes;

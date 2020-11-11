@@ -10,8 +10,9 @@ import br.com.palharosa.calculadoraDeReceita.model.Ingrediente;
 import br.com.palharosa.calculadoraDeReceita.model.Receita;
 import br.com.palharosa.calculadoraDeReceita.repository.EmbalagemRepository;
 import br.com.palharosa.calculadoraDeReceita.repository.IngredienteRepository;
+import br.com.palharosa.calculadoraDeReceita.repository.ReceitaRepository;
 
-public class ReceitaForm {
+public class AtualicacaoReceitaForm {
 
 	private long idEmbalagem;
 	private Map<Double, Long> ingredientes;
@@ -50,13 +51,15 @@ public class ReceitaForm {
 		this.quantidadeProduzida = quantidadeProduzida;
 	}
 
-	public Receita converter(EmbalagemRepository embalagemRepository, IngredienteRepository ingredienteRepository)
-			throws IdNotFoundException {
+	public Receita atualizar(Long id, ReceitaRepository receitaRepository, IngredienteRepository ingredienteRepository,
+			EmbalagemRepository embalagemRepository) throws IdNotFoundException {
+		Receita receita = receitaRepository.getOne(id);
 		Map<Double, Ingrediente> ingredientesQuantidade = new LinkedHashMap<>();
+
 		for (Map.Entry<Double, Long> entrada : ingredientes.entrySet()) {
-			Long id = entrada.getValue();
+			Long idMap = entrada.getValue();
 			Double quantidade = entrada.getKey();
-			Optional<Ingrediente> ingrediente = ingredienteRepository.findById(id);
+			Optional<Ingrediente> ingrediente = ingredienteRepository.findById(idMap);
 
 			if (ingrediente.isPresent()) {
 				ingredientesQuantidade.put(quantidade, ingrediente.get());
@@ -64,11 +67,19 @@ public class ReceitaForm {
 				throw new IdNotFoundException("Problema Na conversão da receitaForm");
 			}
 		}
+		receita.setIngredientes(ingredientesQuantidade);
+
 		Optional<Embalagem> embalagem = embalagemRepository.findById(idEmbalagem);
 		if (embalagem.isPresent()) {
-			return new Receita(embalagem.get(), ingredientesQuantidade, nome, quantidadeProduzida);
+			receita.setEmbalagem(embalagem.get());
+		} else {
+			throw new IdNotFoundException("Problema na atualização de embalagem");
 		}
 
-		throw new IdNotFoundException("Problema Na conversão da receitaForm");
+		receita.setNome(this.nome);
+		receita.setQuantidadeProduzida(this.quantidadeProduzida);
+
+		return receita;
 	}
+
 }

@@ -18,6 +18,7 @@ public class ReceitaDto {
 	private double precoTotal;
 
 	public ReceitaDto(Receita receita) {
+		this.id = receita.getId();
 		this.nome = receita.getNome();
 		this.ingredientes = receita.getIngredientes();
 		this.quantidadeProduzida = receita.getQuantidadeProduzida();
