@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
+import br.com.palharosa.calculadoraDeReceita.model.Embalagem;
 import br.com.palharosa.calculadoraDeReceita.model.Ingrediente;
 import br.com.palharosa.calculadoraDeReceita.model.Receita;
 
@@ -13,9 +14,11 @@ public class ReceitaDto {
 	private Map<Double, Ingrediente> ingredientes;
 	private String nome;
 	private int quantidadeProduzida;
+	private Embalagem embalagem;
 	private double precoIngredientes;
 	private double precoEmbalagem;
 	private double precoTotal;
+	private double precoTotalPorUnidade;
 
 	public ReceitaDto(Receita receita) {
 		this.id = receita.getId();
@@ -25,7 +28,16 @@ public class ReceitaDto {
 		this.precoIngredientes = receita.precoIngredientes();
 		this.precoEmbalagem = receita.precoEmbalagem();
 		this.precoTotal = receita.precoTotal();
+		this.precoTotalPorUnidade = receita.precoTotalPorUnidade();
+		this.embalagem = receita.getEmbalagem();
+	}
 
+	public Embalagem getEmbalagem() {
+		return embalagem;
+	}
+
+	public void setEmbalagem(Embalagem embalagem) {
+		this.embalagem = embalagem;
 	}
 
 	public long getId() {
@@ -82,6 +94,14 @@ public class ReceitaDto {
 
 	public void setPrecoTotal(double precoTotal) {
 		this.precoTotal = precoTotal;
+	}
+
+	public double getPrecoTotalPorUnidade() {
+		return precoTotalPorUnidade;
+	}
+
+	public void setPrecoTotalPorUnidade(double precoTotalPorUnidade) {
+		this.precoTotalPorUnidade = precoTotalPorUnidade;
 	}
 
 	public static Page<ReceitaDto> converter(Page<Receita> receitas) {

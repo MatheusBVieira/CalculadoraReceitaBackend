@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Embalagem {
+public class Embalagem implements CadastroReceita {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,6 +58,16 @@ public class Embalagem {
 
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
+	}
+
+	@Override
+	public Long getValue() {
+		return this.id;
+	}
+
+	@Override
+	public String getLabel() {
+		return this.nome;
 	}
 
 }

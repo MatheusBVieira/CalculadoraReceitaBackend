@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Ingrediente {
+public class Ingrediente implements CadastroReceita {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -72,6 +72,16 @@ public class Ingrediente {
 	public double valorUnidade() {
 		double precoPorUnidade = preco / quantidade;
 		return precoPorUnidade;
+	}
+
+	@Override
+	public Long getValue() {
+		return this.id;
+	}
+
+	@Override
+	public String getLabel() {
+		return this.nome;
 	}
 
 }

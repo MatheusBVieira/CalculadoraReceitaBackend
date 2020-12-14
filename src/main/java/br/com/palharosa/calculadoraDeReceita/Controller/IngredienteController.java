@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.palharosa.calculadoraDeReceita.controller.dto.CadastroReceitaDto;
 import br.com.palharosa.calculadoraDeReceita.controller.dto.IngredienteDto;
 import br.com.palharosa.calculadoraDeReceita.controller.form.AtualizacaoIngredienteForm;
 import br.com.palharosa.calculadoraDeReceita.controller.form.IngredienteForm;
@@ -41,6 +42,14 @@ public class IngredienteController {
 
 		Page<Ingrediente> ingredientes = ingredienteRepository.findAll(paginacao);
 		return IngredienteDto.converter(ingredientes);
+	}
+	
+	@GetMapping("/receita")
+	public Page<CadastroReceitaDto> listaReceita(
+			@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao) {
+		
+		Page<Ingrediente> ingredientes = ingredienteRepository.findAll(paginacao);
+		return CadastroReceitaDto.converterIngrediente(ingredientes);
 	}
 
 	@PostMapping

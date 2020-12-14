@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.palharosa.calculadoraDeReceita.controller.dto.CadastroReceitaDto;
 import br.com.palharosa.calculadoraDeReceita.controller.dto.EmbalagemDto;
 import br.com.palharosa.calculadoraDeReceita.controller.form.AtualizacaoEmbalagemForm;
 import br.com.palharosa.calculadoraDeReceita.controller.form.EmbalagemForm;
@@ -41,6 +42,14 @@ public class EmbalagemController {
 
 		Page<Embalagem> embalagens = embalagemRepository.findAll(paginacao);
 		return EmbalagemDto.converter(embalagens);
+	}
+	
+	@GetMapping("/receita")
+	public Page<CadastroReceitaDto> listaReceita(
+			@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao) {
+		
+		Page<Embalagem> embalagens = embalagemRepository.findAll(paginacao);
+		return CadastroReceitaDto.converterEmbalagem(embalagens);
 	}
 
 	@PostMapping

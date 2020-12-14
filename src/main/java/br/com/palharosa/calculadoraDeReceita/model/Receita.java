@@ -85,7 +85,7 @@ public class Receita {
 			Double precoDoIngredientePelaQuantidade = quantidadeUsada * ingrediente.valorUnidade();
 			valorTotal = valorTotal + precoDoIngredientePelaQuantidade;
 		}
-		return valorTotal;
+		return valorTotal * quantidadeProduzida;
 	}
 
 	public long getId() {
@@ -102,6 +102,10 @@ public class Receita {
 
 	public double precoTotal() {
 		return precoIngredientes() + precoEmbalagem();
+	}
+	
+	public double precoTotalPorUnidade() {
+		return precoTotal() / quantidadeProduzida;
 	}
 
 }
