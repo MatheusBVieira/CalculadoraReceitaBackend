@@ -38,7 +38,7 @@ public class IngredienteController {
 
 	@GetMapping
 	public Page<IngredienteDto> lista(
-			@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao) {
+			@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 500) Pageable paginacao) {
 
 		Page<Ingrediente> ingredientes = ingredienteRepository.findAll(paginacao);
 		return IngredienteDto.converter(ingredientes);
@@ -46,7 +46,7 @@ public class IngredienteController {
 	
 	@GetMapping("/receita")
 	public Page<CadastroReceitaDto> listaReceita(
-			@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao) {
+			@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 500) Pageable paginacao) {
 		
 		Page<Ingrediente> ingredientes = ingredienteRepository.findAll(paginacao);
 		return CadastroReceitaDto.converterIngrediente(ingredientes);

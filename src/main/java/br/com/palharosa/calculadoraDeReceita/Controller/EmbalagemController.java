@@ -38,7 +38,7 @@ public class EmbalagemController {
 
 	@GetMapping
 	public Page<EmbalagemDto> lista(
-			@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao) {
+			@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 500) Pageable paginacao) {
 
 		Page<Embalagem> embalagens = embalagemRepository.findAll(paginacao);
 		return EmbalagemDto.converter(embalagens);
@@ -46,7 +46,7 @@ public class EmbalagemController {
 	
 	@GetMapping("/receita")
 	public Page<CadastroReceitaDto> listaReceita(
-			@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao) {
+			@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 500) Pageable paginacao) {
 		
 		Page<Embalagem> embalagens = embalagemRepository.findAll(paginacao);
 		return CadastroReceitaDto.converterEmbalagem(embalagens);

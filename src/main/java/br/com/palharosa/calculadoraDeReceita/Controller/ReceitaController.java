@@ -46,7 +46,7 @@ public class ReceitaController {
 
 	@GetMapping
 	public Page<ReceitaDto> lista(
-			@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao) {
+			@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 500) Pageable paginacao) {
 
 		Page<Receita> receitas = receitaRepository.findAll(paginacao);
 		return ReceitaDto.converter(receitas);
